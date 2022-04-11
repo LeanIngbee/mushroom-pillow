@@ -42,7 +42,7 @@ left join clean.valid_isrcs c on c.isrc = coalesce(b.isrc_std, a.isrc)
 left join clean.valid_product_ids d on d.product_id = a.product_id
 left join clean.valid_isrc_product_id_pair e on a.product_id is null and e.isrc = coalesce(b.isrc_std, a.isrc) and e.is_default
 left join clean.valid_isrc_product_id_pair f on f.isrc = c.isrc and f.product_id = coalesce(d.product_id, e.product_id)
-left join clean.platform_mapping g on a.platform = g.platform
-left join clean.country_mapping h on a.country = h.country
-left join clean.operation_type_mapping i on a.operation_type = i.operation_type
+left join clean.platform_mapping g on lower(a.platform) = g.platform
+left join clean.country_mapping h on lower(a.country) = h.country
+left join clean.operation_type_mapping i on lower(a.operation_type) = i.operation_type
 left join clean.song_information j on j.isrc = c.isrc and j.product_id = d.product_id

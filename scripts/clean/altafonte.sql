@@ -16,7 +16,7 @@ SELECT
     NULLIF("lower"(country), '') country,
     CAST(null AS varchar) agency,
     false is_licencing,
-    NULLIF("lower"("tipo de operación"), '') operation_type,
+    NULLIF("tipo de operación", '') operation_type,
     cast(NULL as varchar) stream_quality
 
 FROM raw.altafonte
