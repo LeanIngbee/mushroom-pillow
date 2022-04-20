@@ -12,7 +12,7 @@ select
     nullif(case when product_id is not null and product_id != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace(product_id, '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
     nullif(replace(isrc, '-', ''), '') as isrc,
     nullif(lower(platform), '') as platform,
-    nullif('BELIEVE', '') as source,
+    'BELIEVE' as source,
     nullif(lower(country), '') as country,
     cast(null as varchar) as agency,
     false as is_licencing,
