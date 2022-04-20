@@ -28,7 +28,7 @@ select
     case when quantity is null then 'INVALID_QUANTITY' end,
     case when gross_revenue is null then 'INVALID_GROSS_REVENUE' end,
     case when net_revenue is null then 'INVALID_NEW_REVENUE' end,
-    case when a.product_id is null then 'MISSING_SOURCE_PRODUCT_ID' when d.product_id is null then 'INVALID_SOURCE_PRODUCT_ID' end,
+    case when coalesce(d.product_id, e.product_id) is null then 'MISSING_SOURCE_PRODUCT_ID' when d.product_id is null then 'INVALID_SOURCE_PRODUCT_ID' end,
     case when a.product_id is not null and d.product_id is not null and f.product_id is null then 'PRODUCT_ID_NOT_MAPPED' end,
     case when a.isrc is null then 'MISSING_ISRC' when c.isrc is null then 'ISRC_NOT_MAPPED' end,
     case when a.platform is null or g.platform_std is null then 'PLATFORM_NOT_MAPPED' end,
@@ -45,4 +45,4 @@ left join clean.valid_isrc_product_id_pair f on f.isrc = c.isrc and f.product_id
 left join clean.platform_mapping g on lower(a.platform) = g.platform
 left join clean.country_mapping h on lower(a.country) = h.country
 left join clean.operation_type_mapping i on lower(a.operation_type) = i.operation_type
-left join clean.song_information j on j.isrc = c.isrc and j.product_id = d.product_id
+left join clean.song_information j on j.isrc = c.isrc and j.product_id = f.product_id
