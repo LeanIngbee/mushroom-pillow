@@ -31,8 +31,8 @@ select
     case when a.product_id is not null and d.product_id is null then 'INVALID_SOURCE_PRODUCT_ID' end,
     case when a.product_id is null and e.product_id is null then 'MISSING_SOURCE_PRODUCT_ID' end,
     case when a.isrc is null then 'MISSING_ISRC' 
-         when c.isrc is null and b.isrc_std is not null then 'CORRECTED_ISRC_NOT_MAPPED' 
-         when c.isrc is null and b.isrc_std is null then 'ISRC_NOT_MAPPED' 
+         when c.isrc is null and b.isrc_std is not null then 'INVALID_CORRECTED_ISRC' 
+         when c.isrc is null and b.isrc_std is null then 'INVALID_SOURCE_ISRC' 
          when a.product_id is not null and d.product_id is not null and f.product_id is null then 'PRODUCT_ID_NOT_MAPPED'
      end,
     case when a.platform is null or g.platform_std is null then 'PLATFORM_NOT_MAPPED' end,
