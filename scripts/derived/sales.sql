@@ -29,7 +29,7 @@ select
     case when gross_revenue is null then 'INVALID_GROSS_REVENUE' end,
     case when net_revenue is null then 'INVALID_NEW_REVENUE' end,
     case when a.product_id is not null and d.product_id is null then 'INVALID_SOURCE_PRODUCT_ID' end,
-    case when a.product_id is null and f.product_id is null then 'MISSING_SOURCE_PRODUCT_ID' end,
+    case when a.product_id is null and e.product_id is null then 'MISSING_SOURCE_PRODUCT_ID' end,
     case when a.product_id is not null and d.product_id is not null and f.product_id is null then 'PRODUCT_ID_NOT_MAPPED' end,
     case when a.isrc is null then 'MISSING_ISRC' when c.isrc is null then 'ISRC_NOT_MAPPED' end,
     case when a.platform is null or g.platform_std is null then 'PLATFORM_NOT_MAPPED' end,
