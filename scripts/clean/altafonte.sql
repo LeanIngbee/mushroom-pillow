@@ -13,7 +13,7 @@ SELECT
     TRIM("isrc") isrc,
     NULLIF("lower"(TRIM("plataforma")), '') platform,
     'ALTAFONTE' source,
-    NULLIF("lower"(country), '') country,
+    COALESCE(NULLIF(lower(country), ''), 'Unknown') country,
     CAST(null AS varchar) agency,
     false is_licencing,
     NULLIF("tipo de operación", '') operation_type,

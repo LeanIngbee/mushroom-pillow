@@ -13,7 +13,7 @@ select
     nullif(replace(isrc, '-', ''), '') as isrc,
     nullif(lower(platform), '') as platform,
     nullif('BELIEVE', '') as source,
-    nullif(lower(country), '') as country,
+    coalesce(nullif(lower(country), ''), 'Unknown') country,
     cast(null as varchar) as agency,
     false as is_licencing,
     nullif(lower(operation_type), '') as operation_type,
