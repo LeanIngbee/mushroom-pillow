@@ -14,6 +14,8 @@ select
     nullif(lower(platform), '') as platform,
     nullif('BELIEVE', '') as source,
     coalesce(nullif(lower(country), ''), 'Unknown') country,
+    'BELIEVE' as source,
+    nullif(lower(country), '') as country,
     cast(null as varchar) as agency,
     false as is_licencing,
     nullif(lower(operation_type), '') as operation_type,
