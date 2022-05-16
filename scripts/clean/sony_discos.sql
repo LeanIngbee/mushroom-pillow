@@ -8,7 +8,7 @@ with prepared as (
         substring(replace(regexp_extract("$path", '[^/]+$'),'.csv',''), 1,4) as "report_year",
         substring(replace(regexp_extract("$path", '[^/]+$'),'.csv',''), 5,6) as "report_segment",
         substring("período", 1,4) as "sale_year",
-        substring("período", 6,7) as "sale_segment"
+        substring("período", 6,2) as "sale_segment"
     from raw.sony_discos 
 )
 select 
