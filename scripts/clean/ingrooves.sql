@@ -13,7 +13,7 @@ select
     nullif(isrc, '') as isrc,
     nullif(lower("retailer"), '') as platform,
     nullif('INGROOVES', '') as source,
-    nullif(lower("territory"), '') as country,
+    COALESCE(NULLIF(lower("territory"), ''), 'Unknown') country,
     cast(null as varchar) as agency,
     false as is_licencing,
     nullif("sales classification", '') as operation_type,
