@@ -1,5 +1,5 @@
 --create database if not exists derived
-create or replace view derived.sales as 
+create or replace view derived.sales_temp as 
 
 select 
   file,
@@ -44,9 +44,13 @@ from clean.sales a
 left join clean.isrc_mapping b on a.isrc = b.isrc
 left join clean.valid_isrcs c on c.isrc = coalesce(b.isrc_std, a.isrc)
 left join clean.valid_product_ids d on d.product_id = a.product_id
-left join clean.valid_isrc_product_id_pair e on d.product_id is null and e.isrc = coalesce(b.isrc_std, a.isrc) and e.is_default
-left join clean.valid_isrc_product_id_pair f on f.isrc = c.isrc and f.product_id = coalesce(d.product_id, e.product_id)
+left join clean.valid_isrc_product_id_pair_temp e on (d.product_id is null and e.isrc = c.isrc and e.is_default) or (c.isrc is null and e.product_id = d.product_id and e.is_single)  
+left join clean.valid_isrc_product_id_pair_temp f on f.isrc = coalesce(c.isrc, e.isrc) and f.product_id = coalesce(d.product_id, e.product_id)
 left join clean.platform_mapping g on lower(a.platform) = g.platform
 left join clean.country_mapping h on lower(a.country) = h.country
 left join clean.operation_type_mapping i on lower(a.operation_type) = i.operation_type
-left join clean.song_information j on j.isrc = c.isrc and j.product_id = f.product_id
+
+-- TODO: JOIN AND INSTANCES FOR ALBUMS(NOT SINGLES) AND SONGS(REGARDLESS OF THE ALBUM) TO MEDIA_INFORMATION TABLE.
+left join clean.media_information j on (j.isrc = f.isrc and j.product_id = f.product_id)
+                                    or (c.isrc is null and j.product_id = f.product_id and f.is_single)
+                                    or (d.product_id is null and j.isrc = f.isrc and f.is_default and not f.is_single)
