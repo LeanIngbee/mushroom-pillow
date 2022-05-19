@@ -1,8 +1,5 @@
 --create database if not exists derived
-create view derived.error_list AS
-
-with
-
+create or replace view derived.error_list AS
 select 
     error, 
     source, 
