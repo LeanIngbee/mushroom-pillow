@@ -42,7 +42,7 @@ select
 	|| '-01' as date) as sale_date,
     try_cast(try_cast("unidades a pagar" as double) as bigint) as quantity, 
     case lower("Canal") when 'pp&b' then 'COMUNICACION PUBLICA' else 'VENTA DIGITAL' end as sale_type,
-    try_cast(replace("precio", ',', '.') as double) * "unidades a pagar" * ("participación en el contrato" / 100) as gross_revenue,
+    try_cast(replace("precio", ',', '.') as double) * "unidades a pagar" * (try_cast(replace("% part", ',', '.') as double) / 100) as gross_revenue,
     try_cast(replace("royalty a pagar", ',', '.') as double) as net_revenue,
     cast(null as varchar) as product_id,
     nullif("track number", '') as isrc,

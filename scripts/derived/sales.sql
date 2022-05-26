@@ -19,7 +19,7 @@ select
   coalesce(h.iso_code, a.country) as country,
   h.continent,
   agency,
-  false as is_licencing,
+  is_licencing,
   coalesce(i.operation_type_std, a.operation_type) as operation_type,
   stream_quality,
   filter(array[
