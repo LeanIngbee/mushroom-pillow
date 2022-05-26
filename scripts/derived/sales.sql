@@ -1,5 +1,5 @@
 --create database if not exists derived
-create or replace view derived.sales_temp as 
+create or replace view derived.sales as 
 
 select 
   file,
@@ -9,8 +9,8 @@ select
   sale_type,
   gross_revenue,
   net_revenue,
-  coalesce(f.product_id, a.product_id) as product_id,
-  coalesce(c.isrc, a.isrc) as isrc,
+  coalesce(f.product_id, d.product_id, a.product_id) as product_id,
+  coalesce(f.isrc, c.isrc, a.isrc) as isrc,
   song,
   album,
   artist,
@@ -28,12 +28,11 @@ select
     case when quantity is null then 'INVALID_QUANTITY' end,
     case when gross_revenue is null then 'INVALID_GROSS_REVENUE' end,
     case when net_revenue is null then 'INVALID_NEW_REVENUE' end,
-    case when a.product_id is not null and d.product_id is null and e.product_id is null then 'INVALID_SOURCE_PRODUCT_ID' end,
-    case when a.product_id is null and e.product_id is null then 'MISSING_SOURCE_PRODUCT_ID' end,
-    case when a.isrc is null then 'MISSING_ISRC' 
-         when c.isrc is null and b.isrc_std is not null then 'INVALID_CORRECTED_ISRC' 
-         when c.isrc is null and b.isrc_std is null then 'INVALID_SOURCE_ISRC' 
-         when a.product_id is not null and d.product_id is not null and f.product_id is null then 'PRODUCT_ID_NOT_MAPPED'
+    case when coalesce(f.isrc, c.isrc, a.isrc) is null then 'MISSING_ISRC'
+         when coalesce(f.isrc, c.isrc) is null then 'INVALID_ISRC'
+     end,
+    case when coalesce(f.product_id, d.product_id, a.product_id) is null then 'MISSING_PRODUCT_ID'
+         when coalesce(f.product_id, d.product_id) is null then 'INVALID_PRODUCT_ID'
      end,
     case when a.platform is null or g.platform_std is null then 'PLATFORM_NOT_MAPPED' end,
     case when a.country is null or h.iso_code is null then 'COUNTRY_NOT_MAPPED' end,
@@ -44,13 +43,20 @@ from clean.sales a
 left join clean.isrc_mapping b on a.isrc = b.isrc
 left join clean.valid_isrcs c on c.isrc = coalesce(b.isrc_std, a.isrc)
 left join clean.valid_product_ids d on d.product_id = a.product_id
-left join clean.valid_isrc_product_id_pair_temp e on (d.product_id is null and e.isrc = c.isrc and e.is_default) or (c.isrc is null and e.product_id = d.product_id and e.is_single)  
-left join clean.valid_isrc_product_id_pair_temp f on f.isrc = coalesce(c.isrc, e.isrc) and f.product_id = coalesce(d.product_id, e.product_id)
+
+-- This join aims to 1) Fetch the default product_id for the isrc if no valid product_id was given.
+--                   2) Fetch the single isrc for the product_id if no valid isrc was given and the album is a single.
+left join clean.valid_isrc_product_id_pair e on (d.product_id is null and e.isrc = c.isrc and e.is_default) -- Matches default mappings for an isrc.
+                                                  or (c.isrc is null and e.product_id = d.product_id and e.is_single)  -- Matches singles for a product_id.
+
+-- This join is to unify the (product_id, isrc) pair preferring the one formed from the valid product_id and the valid isrc give
+-- or falling back to the pair given by the previous join.
+left join clean.valid_isrc_product_id_pair f on f.isrc = coalesce(c.isrc, e.isrc) and f.product_id = coalesce(d.product_id, e.product_id)
+
 left join clean.platform_mapping g on lower(a.platform) = g.platform
 left join clean.country_mapping h on lower(a.country) = h.country
 left join clean.operation_type_mapping i on lower(a.operation_type) = i.operation_type
 
--- TODO: JOIN AND INSTANCES FOR ALBUMS(NOT SINGLES) AND SONGS(REGARDLESS OF THE ALBUM) TO MEDIA_INFORMATION TABLE.
-left join clean.media_information j on (j.isrc = f.isrc and j.product_id = f.product_id)
-                                    or (c.isrc is null and j.product_id = f.product_id and f.is_single)
-                                    or (d.product_id is null and j.isrc = f.isrc and f.is_default and not f.is_single)
+left join clean.media_information j on (j.isrc = f.isrc and j.product_id = f.product_id) -- Usual match of the (product_id, isrc) pair. This is the happy path.
+                                    or (f.isrc is null and c.isrc is null and j.isrc is null and j.product_id = d.product_id)
+                                    or (f.isrc is null and d.product_id is null and j.product_id is null and j.isrc = c.isrc)
