@@ -16,7 +16,7 @@ select
     coalesce(nullif(lower("país"), ''), 'Unknown') as country,
     cast(null as varchar) as agency,
     true as is_licencing,
-    nullif(lower("tipo de venta"), '') as operation_type,
+    COALESCE(nullif(lower("tipo de venta"), ''), 'Other') as operation_type,
     nullif(lower("tipo de venta"), '') as stream_quality
 from raw.universal_suecia
 
