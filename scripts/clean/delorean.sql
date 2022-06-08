@@ -3,7 +3,7 @@ create or replace view clean.delorean as
 
 select 
     "$path" as file,
-    date_parse(nullif("period date", ''),'%d/%m/%Y') as report_date,
+    date_trunc('month' , date_parse(nullif("period date", ''),'%d/%m/%Y')) as report_date,
     date_parse(nullif("sales date", ''),'%d/%m/%Y')as sale_date,
     try_cast(try_cast("quantity" as double) as bigint) as quantity, 
     'VENTA DIGITAL' as sale_type,
