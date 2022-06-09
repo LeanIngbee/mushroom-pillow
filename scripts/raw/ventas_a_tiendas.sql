@@ -1,0 +1,24 @@
+-- se llama ventas_a_tiendas_directas
+
+--file	
+--report_date -> 01-"sale_date"
+--sale_date -> "Fecha" (sin planchar)
+--quantity -> "Cantidad neta"
+--sale_type ->  "VENTAS_FISICAS"
+--gross_revenue	-> "Total"
+--net_revenue	-> "Total"
+--product_id	-> "Referencia"
+--isrc	 -> null
+--song	-> XXXX (CALC)
+--album	-> XXXX (CALC) (si no hay ningun match que ponga "Spinning Over You")
+--artist	-> XXXX (CALC) (si no hay ningun match que ponga "reyko")
+--platform	-> "Mushroom Pillow Store" matchear con plataforma_corregida
+--"source"	-> VENTAS_A_TIENDAS
+--country	-> 'ESPANA'
+--continent	-> XXXX (CALC)
+--agency	-> null
+--is_licencing	-> false
+--operation_type --> A CONFIRMAR EN CASO DE QUE SEA LP O CD tomar el formato del MP.
+--stream_quality -> "N/A"
+
+-- EXCHANGE RATE EUR
