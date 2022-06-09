@@ -17,7 +17,9 @@ select
     cast(null as varchar) as agency,
     true as is_licencing,
     nullif(lower("analysis code description"), '') as operation_type,
-    nullif(lower("analysis code description"), '') as stream_quality
+    nullif(lower("analysis code description"), '') as stream_quality,
+    'USD' as source_currency
+
 from raw.delorean
 
 -- DELOREAN - INSTRUCCIONES DE TOMAS

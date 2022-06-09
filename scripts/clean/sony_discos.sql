@@ -52,7 +52,9 @@ select
     cast(null as varchar) as agency,
     true as is_licencing,
     nullif(lower("canal"), '') as operation_type,
-    nullif(lower("canal"), '') as stream_quality
+    nullif(lower("canal"), '') as stream_quality,
+    'EUR' as source_currency
+    
 from prepared p
 
 -- SONY DISCOS - INSTRUCCIONES DE TOMAS

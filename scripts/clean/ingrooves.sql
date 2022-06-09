@@ -17,6 +17,7 @@ select
     cast(null as varchar) as agency,
     false as is_licencing,
     nullif("sales classification", '') as operation_type,
-    nullif("sales description" , '') as stream_quality
+    nullif("sales description" , '') as stream_quality,
+    'USD' as source_currency
 
 from raw.ingrooves

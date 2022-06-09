@@ -17,7 +17,9 @@ select
     cast(null as varchar) as agency,
     true as is_licencing,
     COALESCE(nullif(lower("tipo de venta"), ''), 'Other') as operation_type,
-    nullif(lower("tipo de venta"), '') as stream_quality
+    nullif(lower("tipo de venta"), '') as stream_quality,
+    'SEK' as source_currency
+
 from raw.universal_suecia
 
 -- UNIVERSAL SUECIA CONSOLIDADO  - INSTRUCCIONES DE TOMAS

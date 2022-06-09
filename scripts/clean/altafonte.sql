@@ -17,6 +17,7 @@ SELECT
     CAST(null AS varchar) agency,
     false is_licencing,
     NULLIF("tipo de operación", '') operation_type,
-    cast(NULL as varchar) stream_quality
+    cast(NULL as varchar) stream_quality,
+    'EUR' as source_currency
 
 FROM raw.altafonte
