@@ -7,8 +7,11 @@ select
   sale_date,
   quantity, 
   sale_type,
+  source_currency,
   gross_revenue,
   net_revenue,
+  gross_revenue * (case when source_currency = 'EUR' then 1 else cast(1. / rate as double) end) as gross_revenue_eur,
+  net_revenue * (case when source_currency = 'EUR' then 1 else cast(1. / rate as double) end) as net_revenue_eur,
   coalesce(f.product_id, d.product_id, a.product_id) as product_id,
   coalesce(f.isrc, c.isrc, a.isrc) as isrc,
   song,
@@ -60,3 +63,5 @@ left join clean.operation_type_mapping i on lower(a.operation_type) = i.operatio
 left join clean.media_information j on (j.isrc = f.isrc and j.product_id = f.product_id) -- Usual match of the (product_id, isrc) pair. This is the happy path.
                                     or (f.isrc is null and c.isrc is null and j.isrc is null and j.product_id = d.product_id)
                                     or (f.isrc is null and d.product_id is null and j.product_id is null and j.isrc = c.isrc)
+
+left join clean.exchange_rates k on k.date = a.report_date and a.source_currency = k.target

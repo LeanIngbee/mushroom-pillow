@@ -17,5 +17,7 @@ select
     cast(null as varchar) as agency,
     false as is_licencing,
     nullif(lower(operation_type), '') as operation_type,
-    nullif(lower(platform), '') as stream_quality
+    nullif(lower(platform), '') as stream_quality,
+    'EUR' as source_currency
+    
 from raw.believe
