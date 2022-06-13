@@ -1,4 +1,36 @@
 -- se llama ventas_a_tiendas_directas
+CREATE EXTERNAL TABLE `raw.ventas_web_antigua`(
+  `mp_date` bigint, 
+  `mp_ref_id` string, 
+  `mp_ref_type` string, 
+  `mp_artist` string, 
+  `mp_title` string, 
+  `mp_quantity` bigint, 
+  `mp_amount_pre_tax` string)
+ROW FORMAT DELIMITED 
+  FIELDS TERMINATED BY '\;' 
+STORED AS INPUTFORMAT 
+  'org.apache.hadoop.mapred.TextInputFormat' 
+OUTPUTFORMAT 
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  's3://mushroom-pillow-bi/data/raw/sales_csv/ventas_web_antigua/'
+TBLPROPERTIES (
+  'CrawlerSchemaDeserializerVersion'='1.0', 
+  'CrawlerSchemaSerializerVersion'='1.0', 
+  'UPDATED_BY_CRAWLER'='ventas_web_antigua', 
+  'areColumnsQuoted'='false', 
+  'averageRecordSize'='76', 
+  'classification'='csv', 
+  'columnsOrdered'='true', 
+  'compressionType'='none', 
+  'delimiter'='\;', 
+  'objectCount'='1', 
+  'recordCount'='138', 
+  'sizeKey'='10530', 
+  'skip.header.line.count'='1', 
+  'typeOfData'='file')
+
 
 --file	
 --report_date -> igual a "sale date"
