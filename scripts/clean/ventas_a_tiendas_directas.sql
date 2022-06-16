@@ -3,7 +3,7 @@ SELECT
     "$path" as file,
    	DATE_TRUNC('month', date_parse("Fecha",'%d/%m/%Y')) as "report_date",
 	date_parse("Fecha",'%d/%m/%Y') as "sale_date",
-    TRY_CAST(replace("cantidad", ',', '.') as bigint) units,
+    TRY_CAST(replace("cantidad", ',', '.') as bigint) quantity,
     'VENTA FISICA' sale_type,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as gross_revenue,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as net_revenue,
