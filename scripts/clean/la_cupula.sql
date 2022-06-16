@@ -2,13 +2,12 @@
 -- VENTAS DIGITALES
 
 create or replace view clean.la_cupula as 
-
 SELECT
     "$path" as file,
    	date_parse("Fecha reporte",'%d/%m/%Y') as "report_date",
 	date_parse("Fecha venta",'%d/%m/%Y') as "sale_date",
     TRY_CAST("units" as bigint) units,
-    'VENTA DIGITALES' sale_type,
+    'VENTA DIGITAL' sale_type,
     "bruto eur" gross_revenue,
     "neto eur" net_revenue,
     CAST(null AS varchar) as product_id,
@@ -22,7 +21,6 @@ SELECT
     cast(NULL as varchar) stream_quality,
     'EUR' as source_currency
 FROM raw.la_cupula
-
 
 -- Inferir todo
 -- en vez de tener paises tiene country codes
