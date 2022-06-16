@@ -33,7 +33,7 @@ with prepared as (
         "$path" as path,
         date_parse(substring("date", 1, length("date")-6), '%Y-%m-%dT%H:%i:%s') as "sale_date",
         TRY_CAST(REPLACE(REPLACE("total sales", '.', ''), ',','.') as double ) as "total sales parsed",
-        TRY_CAST(REPLACE(REPLACE("total sales", '.', ''), ',','.') as double ) as "shipping parsed"
+        TRY_CAST(REPLACE(REPLACE("shipping", '.', ''), ',','.') as double ) as "shipping parsed"
     from raw.ventas_web_nueva
 ) 
 SELECT
