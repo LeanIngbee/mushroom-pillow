@@ -18,10 +18,10 @@ SELECT
     "Country" country,
     CAST(null AS varchar) agency,
     false is_licencing,
-    CAST(null AS varchar) operation_type, --TODO: NEED TO TAKE IT FROM MP
+    CAST(null AS varchar) operation_type,
     cast(NULL as varchar) stream_quality,
     'EUR' as source_currency
-FROM raw.la_cupula;
+FROM raw.la_cupula
 
 
 -- Inferir todo
