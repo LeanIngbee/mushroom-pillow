@@ -38,6 +38,8 @@ TBLPROPERTIES (
 
 -- LA CUPULA
 
+-- VENTAS DIGITALES
+
 -- Inferir todo
 -- en vez de tener paises
 
