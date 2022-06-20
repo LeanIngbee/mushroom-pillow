@@ -12,3 +12,15 @@ union all
 select * from clean.delorean
 union all
 select * from clean.universal_suecia
+union all
+SELECT * from clean.altafonte_ventas_fisicas
+union all
+SELECT * from clean.gran_sol
+union all
+SELECT * from clean.la_cupula
+union all
+SELECT * from clean.ventas_a_tiendas_directas
+union all
+SELECT * from clean.ventas_web_antigua
+union all
+SELECT * from clean.ventas_web_nueva
