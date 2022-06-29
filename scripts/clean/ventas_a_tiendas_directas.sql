@@ -1,9 +1,17 @@
 create or replace view clean.ventas_a_tiendas_directas as 
 SELECT
     "$path" as file,
-   	DATE_TRUNC('month', date_parse("Fecha",'%d/%m/%Y')) as "report_date",
-	date_parse("Fecha",'%d/%m/%Y') as "sale_date",
-    TRY_CAST(TRY_CAST(replace("cantidad", ',', '.') as double) as bigint) quantity
+   	CASE WHEN "Fecha" like '__/__/____' then 
+        "date_trunc"('month', "date_parse"("Fecha", '%d/%m/%Y')) 
+    else 
+        date_add('day', cast("Fecha" as bigint), date_parse('1899-12-30', '%Y-%m-%d')) --Excel standard conversion
+    end as "report_date",
+    CASE WHEN "Fecha" like '__/__/____' then 
+        "date_trunc"('month', "date_parse"("Fecha", '%d/%m/%Y')) 
+    else 
+        date_add('day', cast("Fecha" as bigint), date_parse('1899-12-30', '%Y-%m-%d')) --Excel standard conversion
+    end as "sale_date",
+    TRY_CAST(TRY_CAST(replace("cantidad", ',', '.') as double) as bigint) quantity,
     'VENTA FISICA' sale_type,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as gross_revenue,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as net_revenue,
