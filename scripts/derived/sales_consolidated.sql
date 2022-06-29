@@ -1,4 +1,4 @@
-drop table derived.sales_consolidated;
+-- drop table derived.sales_consolidated
 CREATE table derived.sales_consolidated
 AS (
     SELECT 
@@ -27,4 +27,4 @@ AS (
         stream_quality,
         array_join(errors, ',') AS errors
     FROM derived.sales
-);
+)

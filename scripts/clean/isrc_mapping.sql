@@ -2,8 +2,22 @@
 create or replace view clean.isrc_mapping as 
 
 select 
-    isrc, 
+    isrc,
     max(isrc_std) as isrc_std 
 
-from raw.isrc_mapping 
+from(
+    select distinct
+        isrc, 
+        isrc_std 
+
+    from raw.isrc_mapping
+
+    union 
+
+    select distinct 
+        isrc, 
+        audio_isrc as isrc_std 
+        
+    from raw.video
+)
 group by 1
