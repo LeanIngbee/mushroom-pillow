@@ -12,7 +12,7 @@ with prepared as (
 
 SELECT
     "path" file,
-    date_add('month', 2, TRY_CAST("Cod año - Mes" || '-01' AS date)) report_date,
+    date_add('month', 1, TRY_CAST("Cod año - Mes" || '-01' AS date)) report_date,
     TRY_CAST("Cod año - Mes" || '-01' AS date) sale_date,
     TRY_CAST("U.post. dev." as bigint) quantity,
     'VENTA FISICA' sale_type,
