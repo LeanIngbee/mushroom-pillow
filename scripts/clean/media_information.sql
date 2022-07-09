@@ -73,6 +73,21 @@ information_for_isrcs_with_only_one_product_id as (
     where isrc is not null and isrc != '' and product_id is not null and product_id != '' and "tipo" != 'Single'
     group by 1
     having count(distinct product_id) = 1
+),
+
+videos as (
+    select 
+        a.isrc,
+        a.product_id,
+        min(coalesce(a."video title", b."main title")) as song, 
+        min(coalesce(a."album agrupado", b."album title")) as album, 
+        min(coalesce(a."artist name", b."artist name")) as artist,
+        cast(min(b."tipo") as varchar) as type
+        
+    from raw.video a
+    left join raw.audio b on a.audio_isrc = b.isrc and a.product_id = b.product_id
+    where a.isrc is not null and a.isrc != '' and a.product_id is not null and a.product_id != ''
+    group by 1, 2
 )
 
 select
@@ -93,5 +108,7 @@ from (
     select * from information_for_null_product_id_records
     union
     select * from information_for_isrcs_with_only_one_product_id
+    union
+    select * from videos
 )
 group by 1, 2

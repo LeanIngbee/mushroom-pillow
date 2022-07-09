@@ -11,13 +11,5 @@ from(
         isrc_std 
 
     from raw.isrc_mapping
-
-    union 
-
-    select distinct 
-        isrc, 
-        audio_isrc as isrc_std 
-        
-    from raw.video
 )
 group by 1

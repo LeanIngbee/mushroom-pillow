@@ -50,7 +50,7 @@ left join clean.valid_product_ids d on d.product_id = a.product_id
 -- This join aims to 1) Fetch the default product_id for the isrc if no valid product_id was given.
 --                   2) Fetch the single isrc for the product_id if no valid isrc was given and the album is a single.
 left join clean.valid_isrc_product_id_pair e on (d.product_id is null and e.isrc = c.isrc and e.is_default) -- Matches default mappings for an isrc.
-                                                  or (c.isrc is null and e.product_id = d.product_id and e.is_single)  -- Matches singles for a product_id.
+                                                   or (c.isrc is null and e.product_id = d.product_id and e.is_single)  -- Matches singles for a product_id.
 
 -- This join is to unify the (product_id, isrc) pair preferring the one formed from the valid product_id and the valid isrc give
 -- or falling back to the pair given by the previous join.
@@ -61,7 +61,7 @@ left join clean.country_mapping h on lower(a.country) = h.country
 left join clean.operation_type_mapping i on lower(a.operation_type) = i.operation_type
 
 left join clean.media_information j on (j.isrc = f.isrc and j.product_id = f.product_id) -- Usual match of the (product_id, isrc) pair. This is the happy path.
-                                    or (f.isrc is null and c.isrc is null and j.isrc is null and j.product_id = d.product_id)
-                                    or (f.isrc is null and d.product_id is null and j.product_id is null and j.isrc = c.isrc)
+                                          or (f.isrc is null and c.isrc is null and j.isrc is null and j.product_id = d.product_id)
+                                          or (f.isrc is null and d.product_id is null and j.product_id is null and j.isrc = c.isrc)
 
 left join clean.exchange_rates k on k.date = a.report_date and a.source_currency = k.target
