@@ -8,7 +8,10 @@ with prepared as (
         substring(replace(regexp_extract("$path", '[^/]+$'),'.csv',''), 1,4) as "report_year",
         substring(replace(regexp_extract("$path", '[^/]+$'),'.csv',''), 5,6) as "report_segment",
         substring("período", 1,4) as "sale_year",
-        substring("período", 6,2) as "sale_segment"
+        substring("período", 6,2) as "sale_segment",
+        case lower("Canal") when 'pp&b' then 'COMUNICACION PUBLICA' else 'VENTA DIGITAL' end as "sale_type",
+        try_cast(replace("precio", ',', '.') as double) * "unidades a pagar" * (try_cast(replace("% part", ',', '.') as double) / 100) as "gross_revenue",
+        try_cast(replace("royalty a pagar", ',', '.') as double) as "net_revenue"
     from raw.sony_discos 
 )
 select 
@@ -41,9 +44,9 @@ select
 		end
 	|| '-01' as date) as sale_date,
     try_cast(try_cast("unidades a pagar" as double) as bigint) as quantity, 
-    case lower("Canal") when 'pp&b' then 'COMUNICACION PUBLICA' else 'VENTA DIGITAL' end as sale_type,
-    try_cast(replace("precio", ',', '.') as double) * "unidades a pagar" * (try_cast(replace("% part", ',', '.') as double) / 100) as gross_revenue,
-    try_cast(replace("royalty a pagar", ',', '.') as double) as net_revenue,
+    sale_type as sale_type,
+    case p.sale_type when 'COMUNICACION PUBLICA' then net_revenue * 2 else gross_revenue end as gross_revenue,
+    net_revenue as net_revenue,
     cast(null as varchar) as product_id,
     nullif("track number", '') as isrc,
     nullif(lower("proveedor"), '') as platform,
