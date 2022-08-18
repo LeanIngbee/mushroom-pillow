@@ -26,3 +26,5 @@ union all
 SELECT * from clean.ventas_web_nueva
 union all
 SELECT * from clean.ventas_web_vieja
+union all
+SELECT * from clean.kobalt

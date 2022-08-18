@@ -18,6 +18,43 @@ select
     false as is_licencing,
     nullif(lower(operation_type), '') as operation_type,
     nullif(lower(platform), '') as stream_quality,
+    --Si lower(Tipo de lanzamiento) like '%music video%' -> 'VIDEO'
+--
+--Sino
+--
+--PREMIUM SI PLATFORM ES:
+--Amazon Premium
+--YouTube Music Premium
+--Gaana (Paid User)
+--YouTube Red
+--
+--
+--FINGERPRINT IS PLATFORM ES:
+--Youtube Audio Fingerprint
+--
+--FREEMIUM SI ES:
+--Gaana (Free User)
+--Amazon Ad-Supported
+--Facebook / Instagram
+--TikTok
+--Amazon AT
+--Amazon CH
+--Amazon DE
+--Amazon ES
+--Amazon FR
+--Amazon IT
+--Amazon JP
+--Amazon Locker
+--Amazon Premium
+--Amazon Prime
+--Amazon UK
+--Amazon US
+--Youtube Adjustment
+--Youtube Audio Tier
+--YouTube Official Music Content
+--
+--SINO UNKNOWN.
+
     'EUR' as source_currency
     
 from raw.believe
