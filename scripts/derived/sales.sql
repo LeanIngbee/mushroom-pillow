@@ -23,7 +23,7 @@ select
   h.continent,
   agency,
   is_licencing,
-  coalesce(i.operation_type_std, a.operation_type) as operation_type,
+  coalesce(l.product_type, i.operation_type_std, a.operation_type) as operation_type,
   stream_quality,
   filter(array[
     case when report_date is null then 'INVALID_REPORT_DATE' end,
@@ -37,9 +37,10 @@ select
     case when coalesce(f.product_id, d.product_id, a.product_id) is null then 'MISSING_PRODUCT_ID'
          when coalesce(f.product_id, d.product_id) is null then 'INVALID_PRODUCT_ID'
      end,
+    case when f.isrc is null then 'INVALID_ISRC_PRODUCT_ID_PAIR' end,
     case when a.platform is null or g.platform_std is null then 'PLATFORM_NOT_MAPPED' end,
     case when a.country is null or h.iso_code is null then 'COUNTRY_NOT_MAPPED' end,
-    case when i.operation_type_std is null then 'OPERATION_TYPE_NOT_MAPPED' end
+    case when l.product_type is null and i.operation_type_std is null then 'OPERATION_TYPE_NOT_MAPPED' end
   ], x -> x is not null) as errors
 
 from clean.sales a
@@ -65,3 +66,5 @@ left join clean.media_information j on (j.isrc = f.isrc and j.product_id = f.pro
                                           or (f.isrc is null and d.product_id is null and j.product_id is null and j.isrc = c.isrc)
 
 left join clean.exchange_rates k on k.date = a.report_date and a.source_currency = k.target
+
+left join clean.product_types l on l.product_id = coalesce(f.product_id, d.product_id, a.product_id)

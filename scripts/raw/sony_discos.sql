@@ -9,7 +9,7 @@ CREATE EXTERNAL TABLE `raw.sony_discos`(
   `nombre del artista` string, 
   `t�tulo del producto` string, 
   `nombre del tema` string, 
-  `n�mero de producto` string, 
+  `numero de producto` string, 
   `territorio de venta` string, 
   `configuration` string, 
   `per�odo` string, 

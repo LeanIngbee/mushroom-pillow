@@ -45,7 +45,7 @@ select
     try_cast(replace("precio", ',', '.') as double) * "unidades a pagar" * (try_cast(replace("% part", ',', '.') as double) / 100) as gross_revenue,
     try_cast(replace("royalty a pagar", ',', '.') as double) as net_revenue,
     cast(null as varchar) as product_id,
-    nullif("track number", '') as isrc,
+    coalesce(nullif("track number", ''), nullif("numero de producto", '')) as isrc,
     nullif(lower("proveedor"), '') as platform,
     'SONY_DISCOS' as source,
     coalesce(nullif(lower("territorio de venta"), ''), 'Unknown') as country,
