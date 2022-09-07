@@ -1,5 +1,6 @@
 --create database if not exists clean
-create or replace view clean.media_information as 
+--create or replace view clean.media_information as 
+
 with
 
 information_for_regular_records as (
@@ -18,7 +19,7 @@ information_for_regular_records as (
 
 information_for_singles as (
     select 
-        min(isrc) as isrc,
+        isrc,
         product_id,
         min_by("main title", isrc) as song, 
         min_by("album title", isrc) as album, 
@@ -27,7 +28,7 @@ information_for_singles as (
         
     from raw.audio
     where isrc is not null and isrc != '' and product_id is not null and product_id != '' and "tipo" = 'Single'
-    group by 2
+    group by 1, 2
 ),
 
 information_for_null_isrc_records as (
