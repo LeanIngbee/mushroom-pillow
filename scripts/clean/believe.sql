@@ -11,50 +11,16 @@ select
     try_cast(replace(net_amount, ',', '.') as double) as net_revenue,
     nullif(case when product_id is not null and product_id != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace(product_id, '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
     nullif(replace(isrc, '-', ''), '') as isrc,
-    nullif(lower(platform), '') as platform,
+    nullif(lower(b.platform), '') as platform,
     'BELIEVE' as source,
     coalesce(nullif(lower(country), ''), 'Unknown') as country,
     cast(null as varchar) as agency,
     false as is_licencing,
     nullif(lower(operation_type), '') as operation_type,
-    nullif(lower(platform), '') as stream_quality,
-    --Si lower(Tipo de lanzamiento) like '%music video%' -> 'VIDEO'
---
---Sino
---
---PREMIUM SI PLATFORM ES:
---Amazon Premium
---YouTube Music Premium
---Gaana (Paid User)
---YouTube Red
---
---
---FINGERPRINT IS PLATFORM ES:
---Youtube Audio Fingerprint
---
---FREEMIUM SI ES:
---Gaana (Free User)
---Amazon Ad-Supported
---Facebook / Instagram
---TikTok
---Amazon AT
---Amazon CH
---Amazon DE
---Amazon ES
---Amazon FR
---Amazon IT
---Amazon JP
---Amazon Locker
---Amazon Premium
---Amazon Prime
---Amazon UK
---Amazon US
---Youtube Adjustment
---Youtube Audio Tier
---YouTube Official Music Content
---
---SINO UNKNOWN.
-
+    CASE WHEN lower(publishing_type) like '%music video%' THEN 'VIDEO'
+    WHEN lower(b.platform) like '%premium%' THEN 'PREMIUM'
+    WHEN m.stream_quality is not null THEN upper(m.stream_quality)
+    ELSE 'UNKNOWN' END as stream_quality,
     'EUR' as source_currency
-    
-from raw.believe
+from raw.believe b
+left join clean.believe_stream_quality_mapping m on m.platform = b.platform
