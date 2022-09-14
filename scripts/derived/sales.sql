@@ -37,7 +37,10 @@ select
     case when coalesce(f.product_id, d.product_id, a.product_id) is null then 'MISSING_PRODUCT_ID'
          when coalesce(f.product_id, d.product_id) is null then 'INVALID_PRODUCT_ID'
      end,
-    case when f.isrc is null then 'INVALID_ISRC_PRODUCT_ID_PAIR' end,
+    case when f.isrc is null 
+          and (coalesce(f.product_id, d.product_id, a.product_id) is not null and 
+               coalesce(f.isrc, c.isrc, a.isrc) is not null)
+         then 'INVALID_ISRC_PRODUCT_ID_PAIR' end,
     case when a.platform is null or g.platform_std is null then 'PLATFORM_NOT_MAPPED' end,
     case when a.country is null or h.iso_code is null then 'COUNTRY_NOT_MAPPED' end,
     case when l.product_type is null and i.operation_type_std is null then 'OPERATION_TYPE_NOT_MAPPED' end

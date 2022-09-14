@@ -44,7 +44,9 @@ SELECT
     'VENTA FISICA' sale_type,
     "total sales parsed" as gross_revenue,
     "total sales parsed" - "shipping parsed" as net_revenue,
-    CAST("Variant SKU" AS varchar) as product_id,
+    case when b.product_id is null then "Variant SKU" 
+         else 'MP' || lpad(regexp_extract("Variant SKU", '\d+'), 3, '0') 
+    end as product_id,
     CAST(null AS varchar) as isrc,
     'Mushroom Pillow Store Web' platform,
     'VENTAS_WEB_NUEVA' source,
@@ -54,7 +56,9 @@ SELECT
     CAST(null AS varchar) operation_type,
     cast(null as varchar) stream_quality,
     'EUR' as source_currency
-FROM prepared
+
+FROM prepared a
+left join clean.valid_product_ids b on 'MP' || lpad(regexp_extract("Variant SKU", '\d+'), 3, '0') = b.product_id
 
 --file	
 --report_date -> 01-"sale_date"
