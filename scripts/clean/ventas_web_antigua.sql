@@ -1,10 +1,10 @@
---`mp_date` bigint, 
---`mp_ref_id` string, 
---`mp_ref_type` string, 
---`mp_artist` string, 
---`mp_title` string, 
---`mp_quantity` bigint, 
---`mp_amount_pre_tax` string
+--"mp_date" bigint, 
+--"mp_ref_id" string, 
+--"mp_ref_type" string, 
+--"mp_artist" string, 
+--"mp_title" string, 
+--"mp_quantity" bigint, 
+--"mp_amount_pre_tax" string
 
 create or replace view clean.ventas_web_antigua as 
 SELECT
@@ -15,7 +15,7 @@ SELECT
     'VENTA FISICA' sale_type,
     TRY_CAST(REPLACE(REPLACE("MP_Amount_pre_tax", '.', ''), ',','.') as double ) as gross_revenue,
     TRY_CAST(REPLACE(REPLACE("MP_Amount_pre_tax", '.', ''), ',','.') as double ) as net_revenue,
-    CAST("Mp_Ref_ID" AS varchar) as product_id,
+    nullif(CAST("Mp_Ref_ID" AS varchar), '') as product_id,
     CAST(null AS varchar) as isrc,
     'Mushroom Pillow Store Web' platform,
     'VENTAS_WEB_ANTIGUA' source,
@@ -24,7 +24,11 @@ SELECT
     false is_licencing,
     CAST(null AS varchar) operation_type,
     cast(null as varchar) stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    cast("mp_artist" as varchar) as artist,
+    cast(null as varchar) as album,
+    nullif("mp_title", '') as song
+
 FROM raw.ventas_web_antigua
 
  --file	

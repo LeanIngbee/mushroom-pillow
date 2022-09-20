@@ -27,7 +27,11 @@ SELECT
     false is_licencing,
     CAST(null AS varchar) operation_type, --TODO: NEED TO TAKE IT FROM MP
     cast(NULL as varchar) stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    cast(NULL as varchar) as artist,
+    cast(NULL as varchar) as album,
+    nullif("titulo", '') as song
+
 FROM prepared
 
 --file	

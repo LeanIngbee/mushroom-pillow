@@ -18,6 +18,9 @@ SELECT
     false is_licencing,
     NULLIF("tipo de operación", '') operation_type,
     cast(NULL as varchar) stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    nullif("artista", '') as artist,
+    nullif("album", '') as album,
+    nullif("track", '') as song
 
 FROM raw.altafonte

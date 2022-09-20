@@ -18,8 +18,11 @@ select
     true as is_licencing,
     nullif(lower("analysis code description"), '') as operation_type,
     nullif(lower("analysis code description"), '') as stream_quality,
-    'USD' as source_currency
-
+    'USD' as source_currency,
+    nullif("track artist", '') as artist,
+    cast(null as varchar) as album,
+    nullif("track name", '') as song
+    
 from raw.delorean
 
 -- DELOREAN - INSTRUCCIONES DE TOMAS

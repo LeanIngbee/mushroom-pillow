@@ -21,6 +21,10 @@ select
     WHEN lower(b.platform) like '%premium%' THEN 'PREMIUM'
     WHEN m.stream_quality is not null THEN upper(m.stream_quality)
     ELSE 'UNKNOWN' END as stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    nullif("artist", '') as artist,
+    nullif("album", '') as album,
+    nullif("song", '') as song
+
 from raw.believe b
 left join clean.believe_stream_quality_mapping m on m.platform = b.platform

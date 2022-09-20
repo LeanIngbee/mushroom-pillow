@@ -48,7 +48,7 @@ select
     case p.sale_type when 'COMUNICACION_PUBLICA' then net_revenue * 2 else gross_revenue end as gross_revenue,
     net_revenue as net_revenue,
     cast(null as varchar) as product_id,
-    coalesce(nullif("track number", ''), nullif("numero de producto", '')) as isrc,
+    coalesce(nullif("track number", ''), nullif("número de producto", '')) as isrc,
     nullif(lower("proveedor"), '') as platform,
     'SONY_DISCOS' as source,
     coalesce(nullif(lower("territorio de venta"), ''), 'Unknown') as country,
@@ -56,7 +56,10 @@ select
     true as is_licencing,
     nullif(lower("canal"), '') as operation_type,
     nullif(lower("canal"), '') as stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    coalesce(nullif("nombre del artista", ''), nullif("nombre de la cuenta", ''), ) as artist,
+    nullif("título del producto", '') as album,
+    nullif("nombre del tema", '') as song
     
 from prepared p
 

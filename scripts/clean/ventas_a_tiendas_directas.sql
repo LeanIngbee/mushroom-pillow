@@ -15,7 +15,7 @@ SELECT
     'VENTA FISICA' sale_type,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as gross_revenue,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as net_revenue,
-    CAST("Referencia" AS varchar) as product_id,
+    nullif(CAST("Referencia" AS varchar), '') as product_id,
     CAST(null AS varchar) as isrc,
     'Mushroom Pillow Store' platform,
     'VENTAS_A_TIENDAS' source,
@@ -24,7 +24,11 @@ SELECT
     false is_licencing,
     CAST(null AS varchar) operation_type,
     cast(null as varchar) stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    nullif("artista", '') as artist,
+    nullif("album", '') as album,
+    cast(null as varchar) as song
+
 FROM raw.ventas_a_tiendas_directas
 
 --file	
@@ -52,20 +56,20 @@ FROM raw.ventas_a_tiendas_directas
 
 --CAMPOS SOURCE
 
---`nº factura asociada` string, 
---`pendiente de facturar` string, 
---`año` bigint, 
---`fecha` string, 
---`cliente` string, 
---`referencia` string, 
---`merch/cd` string, 
---`artista` string, 
---`album` string, 
---`cantidad` string, 
---`pvp` string, 
---`total` string, 
---`tipo de merch` string, 
---`detalle` string
+--"nº factura asociada" string, 
+--"pendiente de facturar" string, 
+--"año" bigint, 
+--"fecha" string, 
+--"cliente" string, 
+--"referencia" string, 
+--"merch/cd" string, 
+--"artista" string, 
+--"album" string, 
+--"cantidad" string, 
+--"pvp" string, 
+--"total" string, 
+--"tipo de merch" string, 
+--"detalle" string
 
 
 

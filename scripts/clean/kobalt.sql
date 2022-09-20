@@ -47,7 +47,7 @@ select
     gross_revenue as gross_revenue,
     net_revenue as net_revenue,
     cast(null as varchar) as product_id,
-    "isrc" as isrc,
+    nullif("isrc", '') as isrc,
     'unknown' as platform,
     'KOBALT' as source,
     coalesce(nullif(lower("territory"), ''), 'Unknown') as country,
@@ -55,5 +55,9 @@ select
     false as is_licencing,
     nullif(lower("right_type"), '') as operation_type,
     'N/A' as stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    nullif("recording_artist", '') as artist,
+    cast(null as varchar) as album,
+    nullif("recording_title", '') as song
+
 from prepared p

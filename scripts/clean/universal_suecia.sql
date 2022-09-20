@@ -18,7 +18,10 @@ select
     true as is_licencing,
     COALESCE(nullif(lower("tipo de venta"), ''), 'Other') as operation_type,
     nullif(lower("tipo de venta"), '') as stream_quality,
-    'SEK' as source_currency
+    'SEK' as source_currency,
+    cast("nombre del artista" as varchar) as artist,
+    cast("título" as varchar) as album,
+    nullif("título del track", '') as song
 
 from raw.universal_suecia
 

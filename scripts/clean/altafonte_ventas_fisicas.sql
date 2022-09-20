@@ -39,7 +39,11 @@ SELECT
     false is_licencing,
     CAST(null AS varchar) operation_type, --TODO: NEED TO TAKE IT FROM MP
     cast(NULL as varchar) stream_quality,
-    'EUR' as source_currency
+    'EUR' as source_currency,
+    nullif("artista", '') as artist,
+    nullif("titulos", '') as album,
+    cast(NULL as varchar) as song
+    
 FROM prepared
 
 --file	01
@@ -64,21 +68,21 @@ FROM prepared
 --stream_quality -> "N/A"
 
 -- raw table:
-  -- `referencia` string, 
-  -- `artista` string, 
-  -- `titulos` string, 
-  -- `ventas` double, 
-  -- `importe` string, 
-  -- `cantidad devoluciones` bigint, 
-  -- `importe devoluciones` string, 
-  -- `cantidad neta` double, 
-  -- `ventas brutas` string, 
-  -- `p. medio` string, 
-  -- `costo distribución` string, 
-  -- `costo devolución` string, 
-  -- `ventas netas` string, 
-  -- `distribuidor` string, 
-  -- `pais` string, 
-  -- `mes` string, 
-  -- `año` bigint, 
-  -- `cd/lp` string)
+  -- "referencia" string, 
+  -- "artista" string, 
+  -- "titulos" string, 
+  -- "ventas" double, 
+  -- "importe" string, 
+  -- "cantidad devoluciones" bigint, 
+  -- "importe devoluciones" string, 
+  -- "cantidad neta" double, 
+  -- "ventas brutas" string, 
+  -- "p. medio" string, 
+  -- "costo distribución" string, 
+  -- "costo devolución" string, 
+  -- "ventas netas" string, 
+  -- "distribuidor" string, 
+  -- "pais" string, 
+  -- "mes" string, 
+  -- "año" bigint, 
+  -- "cd/lp" string)

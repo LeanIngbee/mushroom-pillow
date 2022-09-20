@@ -18,6 +18,9 @@ select
     false as is_licencing,
     nullif("sales classification", '') as operation_type,
     nullif("sales description" , '') as stream_quality,
-    'USD' as source_currency
+    'USD' as source_currency,
+    nullif("artist", '') as artist,
+    nullif("album", '') as album,
+    nullif("song", '') as song
 
 from raw.ingrooves
