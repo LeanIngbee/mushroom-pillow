@@ -25,7 +25,7 @@ worksheets_configs = {
             'target_path': 'data/raw/metadata/royalties_video/Metadata - Completa - VF.csv'
         },
         {
-            'name': 'Titulares',
+            'name': 'Mails y titulares',
             'target_path': 'data/raw/metadata/royalties_contacts/Metadata - Completa - VF.csv'
         }
     ]
