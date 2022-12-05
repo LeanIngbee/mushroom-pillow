@@ -28,3 +28,5 @@ union all
 SELECT * from clean.ventas_web_vieja
 union all
 SELECT * from clean.kobalt
+union all
+SELECT * from clean.syncros
