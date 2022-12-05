@@ -68,6 +68,6 @@ left join clean.media_information j on (j.isrc = f.isrc and j.product_id = f.pro
                                           or (f.isrc is null and c.isrc is null and j.isrc is null and j.product_id = d.product_id)
                                           or (f.isrc is null and d.product_id is null and j.product_id is null and j.isrc = c.isrc)
 
-left join clean.exchange_rates k on k.date = a.report_date and a.source_currency = k.target
+left join clean.exchange_rates k on k.date = date_trunc('month', a.report_date) and a.source_currency = k.target
 
 left join clean.product_types l on l.product_id = coalesce(f.product_id, d.product_id, a.product_id)
