@@ -12,6 +12,7 @@ select
   net_revenue,
   gross_revenue * (case when source_currency = 'EUR' then 1 else cast(1. / rate as double) end) as gross_revenue_eur,
   net_revenue * (case when source_currency = 'EUR' then 1 else cast(1. / rate as double) end) as net_revenue_eur,
+  (case when source_currency = 'EUR' then 1 else cast(1. / rate as double) end) as source_currency_to_eur_rate,
   coalesce(f.product_id, d.product_id, a.product_id) as product_id,
   coalesce(f.isrc, c.isrc, a.isrc) as isrc,
   coalesce(j.song, a.song) as song,

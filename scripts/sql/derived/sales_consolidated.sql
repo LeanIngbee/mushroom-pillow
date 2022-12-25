@@ -12,6 +12,7 @@ AS (
         net_revenue,
         gross_revenue_eur,
         net_revenue_eur,
+        source_currency_to_eur_rate,
         product_id,
         isrc,
         song,
