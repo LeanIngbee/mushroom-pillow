@@ -30,3 +30,5 @@ union all
 SELECT * from clean.kobalt
 union all
 SELECT * from clean.syncros
+union all
+SELECT * from clean.ingresos_sin_base
