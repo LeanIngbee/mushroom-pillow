@@ -9,7 +9,10 @@ select
     nullif("Tipo de Ingreso", '') as sale_type,
     try_cast(replace(replace("Importe Bruto", '.', ''), ',', '.') as double) as gross_revenue,
     try_cast(replace(replace("Importe Neto", '.', ''), ',', '.') as double) as net_revenue,
-    nullif(case when "Referencia" is not null and "Referencia" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("Referencia", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
+    coalesce(
+        nullif(case when "col5" is not null and "col5" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("col5", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, ''),
+        nullif(case when "Referencia" is not null and "Referencia" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("Referencia", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '')
+    ) as product_id,
     nullif("ISRC", '') as isrc,
     nullif(lower("Fuente"), '') as platform,
     'INGRESOS_SIN_BASE' as source,

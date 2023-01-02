@@ -10,7 +10,12 @@ CREATE EXTERNAL TABLE raw.`ingresos_sin_base`(
   `Album` string,
   `Track` string,
   `ISRC` string,
-  `Referencia` string
+  `Referencia` string,
+  `col1` string,
+  `col2` string,
+  `col3` string,
+  `col4` string,
+  `col5` string
 )
 ROW FORMAT SERDE 
   'org.apache.hadoop.hive.serde2.OpenCSVSerde' 
