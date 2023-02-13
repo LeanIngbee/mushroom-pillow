@@ -24,7 +24,9 @@ select
   h.continent,
   agency,
   is_licencing,
-  coalesce(l.product_type, i.operation_type_std, a.operation_type) as operation_type,
+  case when l.different_product_types > 1 then coalesce(i.operation_type_std, a.operation_type, l.product_type)
+       else coalesce(l.product_type, i.operation_type_std, a.operation_type) 
+   end as operation_type,
   stream_quality,
   filter(array[
     case when report_date is null then 'INVALID_REPORT_DATE' end,

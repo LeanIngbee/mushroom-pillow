@@ -7,12 +7,16 @@ worksheets_configs = {
             'target_path': 'data/raw/metadata/audio/Metadata - Completa - VF.csv'
         },
         {
+            'name': 'Audio Metadta',
+            'target_path': 'data/raw/metadata/audio/Metadata - Completa - VF.csv'
+        },
+        {
             'name': 'Video Metadta',
             'target_path': 'data/raw/metadata/video/Metadata - Completa - VF.csv'
         },
         {
             'name': 'Referencias',
-            'target_path': 'data/raw/metadata/operation_type/Metadata - Completa - VF.csv'
+            'target_path': 'data/raw/metadata/product_types/Metadata - Completa - VF.csv'
         }
     ],
     'data/raw/metadata/royalties_excel_file/Metadata - Completa - VF (con royalties).xlsx': [

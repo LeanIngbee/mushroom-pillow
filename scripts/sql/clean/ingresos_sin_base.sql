@@ -3,8 +3,8 @@ create or replace view clean.ingresos_sin_base as
 
 select 
     "$path" as file,
-    try_cast(date_parse("Fecha", '%d/%m/%Y') as date) as report_date,
-    try_cast(date_parse("Fecha", '%d/%m/%Y') as date) as sale_date,
+    date_trunc('month', date_parse("Fecha", '%d/%m/%Y')) as report_date,
+    date_trunc('month', date_parse("Fecha", '%d/%m/%Y')) as sale_date,
     1 as quantity, 
     nullif("Tipo de Ingreso", '') as sale_type,
     try_cast(replace(replace("Importe Bruto", '.', ''), ',', '.') as double) as gross_revenue,

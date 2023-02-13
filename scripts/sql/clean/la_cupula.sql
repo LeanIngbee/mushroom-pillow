@@ -4,8 +4,8 @@
 create or replace view clean.la_cupula as 
 SELECT
     "$path" as file,
-   	date_parse("Fecha reporte",'%d/%m/%Y') as "report_date",
-	date_parse("Fecha venta",'%d/%m/%Y') as "sale_date",
+   	date_trunc('month', date_parse("Fecha reporte",'%d/%m/%Y')) as report_date,
+	date_trunc('month', date_parse("Fecha venta",'%d/%m/%Y')) as sale_date,
     TRY_CAST("units" as bigint) quantity,
     'VENTA DIGITAL' sale_type,
     try_cast(replace("bruto eur", ',', '.') as double) gross_revenue,

@@ -30,7 +30,7 @@ SELECT
     'VENTA FISICA' sale_type,
     TRY_CAST(REPLACE(REPLACE("ventas brutas", '.', ''), ',','.') as double ) gross_revenue,
     TRY_CAST(REPLACE(REPLACE("ventas netas", '.', ''), ',','.') as double ) net_revenue,
-    NULLIF(TRIM("referencia"), '') as product_id,
+    nullif(case when "referencia" is not null and "referencia" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("referencia", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
     CAST(null AS varchar) as isrc,
     'Physical Store' platform,
     'ALTAFONTE' source, -- REAL SOURCE es altafonte_ventas_fisicas pero tomas pide ALTAFONTE

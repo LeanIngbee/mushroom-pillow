@@ -18,19 +18,22 @@ SELECT
     'VENTA FISICA' sale_type,
     "neto total corregido" gross_revenue,
     "ventas netas sello corregido" net_revenue,
-    NULLIF(TRIM("referencia"), '') as product_id,
+    nullif(case when "referencia" is not null and "referencia" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("referencia", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
     CAST(null AS varchar) as isrc,
     'Physical Store' platform,
     'GRAN_SOL' source,
     'España' country,
     CAST(null AS varchar) agency,
     false is_licencing,
-    CAST(null AS varchar) operation_type, --TODO: NEED TO TAKE IT FROM MP
+    nullif(case when length(element_at(split(replace("titulo", '"', ''), ' '), 1)) = 2 
+           then element_at(split(replace("titulo", '"', ''), ' '), 1) end, '') operation_type, 
     cast(NULL as varchar) stream_quality,
     'EUR' as source_currency,
     cast(NULL as varchar) as artist,
     cast(NULL as varchar) as album,
-    nullif("titulo", '') as song
+    nullif(case when length(element_at(split(replace("titulo", '"', ''), ' '), 1)) = 2 
+           then substring(replace("titulo", '"', ''), 4, length(replace("titulo", '"', ''))) -- Removes the first 2 letters corresponding to the and the first space.
+           else replace("titulo", '"', '') end, '') as song
 
 FROM prepared
 

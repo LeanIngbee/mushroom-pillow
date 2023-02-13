@@ -9,7 +9,7 @@ SELECT
     'VENTA DIGITAL' sale_type,
     TRY_CAST(REPLACE(REPLACE("suma de bruto altafonte", '.', ''), ',','.') as double ) gross_revenue,
     TRY_CAST(REPLACE(REPLACE("suma de neto altafonte", '.', ''), ',','.') as double ) net_revenue,
-    NULLIF(TRIM("mp"), '') as product_id,
+    nullif(case when "mp" is not null and "mp" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("mp", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
     NULLIF(TRIM("isrc"), '') as isrc,
     NULLIF("lower"(TRIM("plataforma")), '') platform,
     'ALTAFONTE' source,

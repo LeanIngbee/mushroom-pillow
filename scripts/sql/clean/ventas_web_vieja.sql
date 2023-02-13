@@ -115,7 +115,7 @@ SELECT
     'VENTA FISICA' sale_type,
     "total_products" as gross_revenue,
     "total_paid_tax_incl" as net_revenue,
-    nullif("product_reference", '') as product_id,
+    nullif(case when "product_reference" is not null and "product_reference" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("product_reference", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
     CAST(null AS varchar) as isrc,
     'Mushroom Pillow Store Web' platform,
     'VENTAS_WEB_VIEJA' source,

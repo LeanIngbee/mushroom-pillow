@@ -15,7 +15,7 @@ SELECT
     'VENTA FISICA' sale_type,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as gross_revenue,
     TRY_CAST(REPLACE(REPLACE("Total", '.', ''), ',','.') as double ) as net_revenue,
-    nullif(CAST("Referencia" AS varchar), '') as product_id,
+    nullif(case when "Referencia" is not null and "Referencia" != '' then 'MP' || lpad(try_cast(try_cast(regexp_replace("Referencia", '([^0-9.])', '') as bigint) as varchar), 3, '0') end, '') as product_id,
     CAST(null AS varchar) as isrc,
     'Mushroom Pillow Store' platform,
     'VENTAS_A_TIENDAS' source,
