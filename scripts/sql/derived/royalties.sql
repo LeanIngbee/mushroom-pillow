@@ -20,12 +20,16 @@ select
   platform,
   country,
   operation_type,
-  royalties_rate,
+  coalesce(royalties_rate, 0) as royalties_rate,
   sum(quantity) as quantity,
   sum(net_revenue) as net_revenue,
-  sum(net_revenue * royalties_rate) as royalties
+  sum(gross_revenue) as gross_revenue,
+  sum(net_revenue * coalesce(royalties_rate, 0)) as royalties,
+  sum(net_revenue_eur) as net_revenue_eur,
+  sum(gross_revenue_eur) as gross_revenue_eur,
+  sum(net_revenue_eur * coalesce(royalties_rate, 0)) as royalties_eur
 
 from derived.sales_consolidated a
-join clean.royalties_media b on a.isrc = b.isrc and a.product_id = b.product_id
+left join clean.royalties_media b on a.isrc = b.isrc and a.product_id = b.product_id
 group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
 order by 1 desc, 2 desc, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 desc
