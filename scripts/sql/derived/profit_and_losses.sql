@@ -17,6 +17,19 @@ ppb as (
      group by 1
 ),
 
+publishing as (
+     select 
+          date_format(report_date, '%Y') as year,
+          sum(gross_revenue_eur) as amount,
+          'Direct Catalog' as concept,
+          'Publishing' as detail,
+          '1.1.2' as ordering
+
+     from derived.sales_consolidated
+     where sale_type in ('Publishing') --and not is_licencing
+     group by 1
+),
+
 synchronizations as (
      select 
           date_format(report_date, '%Y') as year,
@@ -66,6 +79,8 @@ direct_catalog as (
 
      from (
           select * from ppb
+          union all
+          select * from publishing
           union all
           select * from synchronizations
           union all
@@ -313,6 +328,19 @@ ebitda as (
      group by 1
 ),
 
+interest as (
+     select 
+          date_format(date_parse(fecha, '%d/%m/%Y'), '%Y') as year,
+          sum(try_cast(importe as double)) as amount,
+          'Interest' as concept,
+          detalle as detail,
+          '6.' || cast(row_number() over(order by detalle) as varchar) as ordering
+
+     from raw.gastos_sin_base
+     group by 1, 4
+     order by detalle
+),
+
 ebt as (
      select 
           year,
@@ -323,8 +351,8 @@ ebt as (
 
      from (
           select year, amount from ebitda
-          --union all
-          --select year, - amount from operation_costs
+          union all
+          select year, amount from interest
      )
      group by 1
 ),
@@ -427,4 +455,5 @@ from (
 	union all
 	select * from investments
 )
+where year <= date_format(now(), '%Y')
 order by year desc, ordering

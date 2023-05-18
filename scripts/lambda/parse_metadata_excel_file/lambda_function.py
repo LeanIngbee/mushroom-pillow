@@ -7,10 +7,6 @@ worksheets_configs = {
             'target_path': 'data/raw/metadata/audio/Metadata - Completa - VF.csv'
         },
         {
-            'name': 'Audio Metadta',
-            'target_path': 'data/raw/metadata/audio/Metadata - Completa - VF.csv'
-        },
-        {
             'name': 'Video Metadta',
             'target_path': 'data/raw/metadata/video/Metadata - Completa - VF.csv'
         },
