@@ -32,3 +32,5 @@ union all
 SELECT * from clean.syncros
 union all
 SELECT * from clean.ingresos_sin_base
+union all
+select * from clean.universal_francia
