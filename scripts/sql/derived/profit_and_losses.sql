@@ -4,12 +4,208 @@ create or replace view derived.profit_and_losses as
 
 with
 
+profit_and_losses_structure as (
+     (
+          select
+               'Direct Catalog' as concept,
+               'PP&B' as detail,
+               '1.1.1' as ordering
+     )
+     union all
+     (
+          select
+               'Direct Catalog' as concept,
+               'Publishing' as detail,
+               '1.1.2' as ordering
+     )
+     union all
+     (
+          select
+               'Direct Catalog' as concept,
+               'Synchronizations' as detail,
+               '1.1.4' as ordering
+     )
+     union all
+     (
+          select
+               'Direct Catalog' as concept,
+               'Digital Sales' as detail,
+               '1.1.5' as ordering
+     )
+     union all
+     (
+          select
+               'Direct Catalog' as concept,
+               'Physical Sales' as detail,
+               '1.1.6' as ordering
+     )
+     union all
+     (
+          select
+               'Direct Catalog' as concept,
+               'Direct Catalog' as detail,
+               '1.1' as ordering
+     )
+     union all
+     (
+          select
+               'Licenced Catalog' as concept,
+               'Licenced Catalog' as detail,
+               '1.2' as ordering
+     )
+     union all
+     (
+          select
+               'Ingresos' as concept,
+               'Ingresos' as detail,
+               '1' as ordering
+     )
+     union all
+     (
+          select
+               'Direct Cost' as concept,
+               'Direct Cost' as detail,
+               '2' as ordering
+     )
+     union all
+     (
+          select
+               'Gross Margin' as concept,
+               'Gross Margin' as detail,
+               '3' as ordering
+     )
+     union all
+     (
+          select
+               'Structure & Distribution' as concept,
+               'Structure' as detail,
+               '4.1.1' as ordering
+     )
+     union all
+     (
+          select
+               'Structure & Distribution' as concept,
+               'Personel' as detail,
+               '4.1.2' as ordering
+     )
+     union all
+     (
+          select
+               'Structure & Distribution' as concept,
+               'Distribution' as detail,
+               '4.1.3' as ordering
+     )
+     union all
+     (
+          select
+               'Structure & Distribution' as concept,
+               'Structure & Distribution' as detail,
+               '4.1' as ordering
+     )
+     union all
+     (
+          select
+               'Production & Promotion' as concept,
+               'Producción Audio' as detail,
+               '4.2.1' as ordering
+     )
+     union all
+     (
+          select
+               'Production & Promotion' as concept,
+               'Producción Visual' as detail,
+               '4.2.2' as ordering
+     )
+     union all
+     (
+          select
+               'Production & Promotion' as concept,
+               'Otros producción' as detail,
+               '4.2.3' as ordering
+     )
+     union all
+     (
+          select
+               'Production & Promotion' as concept,
+               'Fabricación Física' as detail,
+               '4.2.4' as ordering
+     )
+     union all
+     (
+          select
+               'Production & Promotion' as concept,
+               'Promoción' as detail,
+               '4.2.5' as ordering
+     )
+     union all
+     (
+          select
+               'Production & Promotion' as concept,
+               'Others' as detail,
+               '4.2.6' as ordering
+     )
+     union all
+     (
+          select
+               'Production & Promotion' as concept,
+               'Production & Promotion' as detail,
+               '4.2' as ordering
+     )
+     union all
+     (
+          select
+               'Operations Cost' as concept,
+               'Operations Cost' as detail,
+               '4' as ordering
+     )
+     union all
+     (
+          select
+               'EBITDA' as concept,
+               'EBITDA' as detail,
+               '5' as ordering
+     )
+     union all
+     (
+          select
+               'Interest' as concept,
+               'Interest' as detail,
+               '6' as ordering
+     )
+     union all
+     (
+          select
+               'EBT' as concept,
+               'EBT' as detail,
+               '7' as ordering
+     )
+     union all
+     (
+          select
+               'Tax' as concept, 
+               'Tax' as detail,
+               '8' as ordering
+     )
+     union all
+     (
+          select
+               'Net Profit' as concept,
+               'Net Profit' as detail,
+               '9' as ordering
+     )
+     union all
+     (
+          select
+               'Compra Catalogo' as concept,
+               'Compra Catalogo' as detail,
+               '9.1' as ordering
+     )
+),
+
 ppb as (
      select 
           date_format(report_date, '%Y') as year,
-          sum(gross_revenue_eur) as amount,
-          'Direct Catalog' as concept,
-          'PP&B' as detail,
+          sum(gross_revenue) as amount,
           '1.1.1' as ordering
 
      from derived.sales_consolidated
@@ -21,8 +217,6 @@ publishing as (
      select 
           date_format(report_date, '%Y') as year,
           sum(gross_revenue_eur) as amount,
-          'Direct Catalog' as concept,
-          'Publishing' as detail,
           '1.1.2' as ordering
 
      from derived.sales_consolidated
@@ -34,8 +228,6 @@ synchronizations as (
      select 
           date_format(report_date, '%Y') as year,
           sum(gross_revenue_eur) as amount,
-          'Direct Catalog' as concept,
-          'Synchronizations' as detail,
           '1.1.4' as ordering
 
      from derived.sales_consolidated
@@ -47,8 +239,6 @@ digital_sales as (
      select 
           date_format(report_date, '%Y') as year,
           sum(gross_revenue_eur) as amount,
-          'Direct Catalog' as concept,
-          'Digital Sales' as detail,
           '1.1.5' as ordering
 
      from derived.sales_consolidated
@@ -60,8 +250,6 @@ physical_sales as (
      select 
           date_format(report_date, '%Y') as year,
           sum(gross_revenue_eur) as amount,
-          'Direct Catalog' as concept,
-          'Physical Sales' as detail,
           '1.1.6' as ordering
 
      from derived.sales_consolidated
@@ -73,8 +261,6 @@ direct_catalog as (
      select 
           year,
           sum(amount) as amount,
-          'Direct Catalog' as concept,
-          'Direct Catalog' as detail,
           '1.1' as ordering
 
      from (
@@ -95,8 +281,6 @@ licenced_catalog as (
      select 
           date_format(report_date, '%Y') as year,
           sum(gross_revenue_eur) as amount,
-          'Licenced Catalog' as concept,
-          'Licenced Catalog' as detail,
           '1.2' as ordering
 
      from derived.sales_consolidated
@@ -108,8 +292,6 @@ income as (
      select
           year,
           sum(amount) as amount,
-          'Ingresos' as concept,
-          'Ingresos' as detail,
           '1' as ordering
 
      from (
@@ -124,8 +306,6 @@ direct_cost as (
      select 
           substring(invoice_period_start, 1, 4) as year,
           sum(royalties_eur) as amount,
-          'Direct Cost' as concept,
-          'Direct Cost' as detail,
           '2' as ordering
 
      from derived.royalties
@@ -136,8 +316,6 @@ gross_margin as (
      select 
           year,
           sum(amount) as amount,
-          'Gross Margin' as concept,
-          'Gross Margin' as detail,
           '3' as ordering
 
      from (
@@ -152,8 +330,6 @@ structure as (
      select
           year,
           sum(cost) as amount,
-          'Structure & Distribution' as concept,	
-          'Structure' as detail,
           '4.1.1' as ordering
 
      from clean.pagos_y_cobros
@@ -161,13 +337,22 @@ structure as (
      group by 1
 ),
 
+personel as (
+     select
+          year,
+          sum(cost) as amount,
+          '4.1.2' as ordering
+
+     from clean.gastos_sin_base
+     where category = 'Sueldos'
+     group by 1
+),
+
 distribution as (
     select 
-        date_format(report_date, '%Y') as year,
-        sum(gross_revenue) - sum(net_revenue) as amount,
-        'Structure & Distribution' as concept,
-		'Distribution' as detail,
-		'4.1.3' as ordering
+          date_format(report_date, '%Y') as year,
+          sum(gross_revenue) - sum(net_revenue) as amount,
+          '4.1.3' as ordering
         
     from derived.sales_consolidated
     where sale_type = 'COMUNICACION_PUBLICA'
@@ -182,14 +367,14 @@ structure_and_distribution as (
      select
           year,
           sum(amount) as amount,
-		  'Structure & Distribution' as concept,
-          'Structure & Distribution' as detail,
           '4.1' as ordering
     
      from (
-          select * from structure
+          select year, amount, ordering from structure
           union all
-          select * from distribution
+          select year, amount, ordering from personel
+          union all
+          select year, amount, ordering from distribution
      )
      group by 1
 ),
@@ -198,8 +383,6 @@ audio_production as (
      select
           year,
           sum(cost) as amount,
-          'Production & Promotion' as concept,
-          'Producción Audio' as detail,
           '4.2.1' as ordering
 
      from clean.pagos_y_cobros
@@ -211,8 +394,6 @@ video_production as (
      select
           year,
           sum(cost) as amount,
-          'Production & Promotion' as concept,
-          'Producción Visual' as detail,
           '4.2.2' as ordering
 
      from clean.pagos_y_cobros
@@ -224,8 +405,6 @@ others_production as (
      select
           year,
           sum(cost) as amount,
-          'Production & Promotion' as concept,
-          'Otros producción' as detail,
           '4.2.3' as ordering
 
      from clean.pagos_y_cobros
@@ -237,8 +416,6 @@ physical_fabrication as (
      select
           year,
           sum(cost) as amount,
-          'Production & Promotion' as concept,
-          'Fabricación Física' as detail,
           '4.2.4' as ordering
 
      from clean.pagos_y_cobros
@@ -250,8 +427,6 @@ promotion as (
      select
           year,
           sum(cost) as amount,
-          'Production & Promotion' as concept,
-          'Promoción' as detail,
           '4.2.5' as ordering
 
      from clean.pagos_y_cobros
@@ -263,8 +438,6 @@ others as (
      select
           year,
           sum(cost) as amount,
-          'Production & Promotion' as concept,
-          'Others' as detail,
           '4.2.6' as ordering
 
      from clean.pagos_y_cobros
@@ -276,8 +449,6 @@ production_and_promotion as (
      select
           year,
           sum(amount) as amount,
-          'Production & Promotion' as concept,
-          'Production & Promotion' as detail,
           '4.2' as ordering
 
      from (
@@ -300,8 +471,6 @@ operation_costs as (
      select
           year,
           sum(amount) as amount,
-          'Operations Cost' as concept,
-          'Operations Cost' as detail,
           '4' as ordering
 
      from (
@@ -316,8 +485,6 @@ ebitda as (
      select 
           year,
           sum(amount) as amount,
-          'EBITDA' as concept,
-          'EBITDA' as detail,
           '5' as ordering
 
      from (
@@ -329,30 +496,26 @@ ebitda as (
 ),
 
 interest as (
-     select 
-          date_format(date_parse(fecha, '%d/%m/%Y'), '%Y') as year,
-          sum(try_cast(importe as double)) as amount,
-          'Interest' as concept,
-          detalle as detail,
-          '6.' || cast(row_number() over(order by detalle) as varchar) as ordering
+     select
+          year,
+          sum(cost) as amount,
+          '6' as ordering
 
-     from raw.gastos_sin_base
-     group by 1, 4
-     order by detalle
+     from clean.gastos_sin_base
+     where category = 'Prestamo'
+     group by 1
 ),
 
 ebt as (
      select 
           year,
           sum(amount) as amount,
-          'EBT' as concept,
-          'EBT' as detail,
           '7' as ordering
 
      from (
           select year, amount from ebitda
           union all
-          select year, amount from interest
+          select year, - amount from interest
      )
      group by 1
 ),
@@ -361,8 +524,6 @@ tax as (
      select 
           year,
           0.25 * amount as amount,
-          'Tax' as concept, 
-          'Tax' as detail,
           '8' as ordering
 
      from ebt
@@ -372,8 +533,6 @@ net_profit as (
      select 
           year,
           sum(amount) as amount,
-          'Net Profit' as concept,
-          'Net Profit' as detail,
           '9' as ordering
 
      from (
@@ -388,8 +547,6 @@ catalog_purchase as (
      select
           year,
           sum(cost) as amount,
-          'Compra Catalogo' as concept,
-          'Compra Catalogo' as detail,
           '9.1' as ordering
 
      from clean.pagos_y_cobros
@@ -399,11 +556,12 @@ catalog_purchase as (
 
 investments as (
      select * from catalog_purchase
-)
+),
 
-select substr(ordering, 1, 1) as concept_ordering, ordering as detail_ordering, concept, detail, year, amount 
-from (
+profit_and_losses_lines as (
 	select * from ppb
+	union all
+	select * from publishing
 	union all
 	select * from synchronizations
 	union all
@@ -422,6 +580,8 @@ from (
 	select * from gross_margin
 	union all
 	select * from structure
+	union all
+	select * from personel
 	union all
 	select * from distribution
 	union all
@@ -445,6 +605,8 @@ from (
 	union all
 	select * from ebitda
 	union all
+	select * from interest
+	union all
 	select * from ebt
 	union all
 	select * from tax
@@ -455,5 +617,16 @@ from (
 	union all
 	select * from investments
 )
+
+select 
+     element_at(split(a.ordering, '.'), 1) as concept_ordering, 
+     a.ordering as detail_ordering, 
+     concept, 
+     detail, 
+     year, 
+     cast(amount as decimal(10, 2)) as amount
+
+from profit_and_losses_lines a
+join profit_and_losses_structure b on a.ordering = b.ordering
 where year <= date_format(now(), '%Y')
-order by year desc, ordering
+order by year desc, a.ordering

@@ -1,5 +1,6 @@
 CREATE EXTERNAL TABLE raw.`gastos_sin_base`(
   `Fecha` string,
+  `Tipo` string,
   `Importe` string,
   `Detalle` string
 )
